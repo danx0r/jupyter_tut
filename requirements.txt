@@ -1,0 +1,4 @@
+jupyterlab
+cookiecutter 
+nodejs 
+jupyter-packaging
