@@ -14,7 +14,7 @@ import { Message } from '@lumino/messaging';
 
 import { Widget } from '@lumino/widgets';
 
-interface APODResponse {
+interface BURSTResponse {
   copyright: string;
   date: string;
   explanation: string;
@@ -23,14 +23,14 @@ interface APODResponse {
   url: string;
 }
 
-class APODWidget extends Widget {
+class BURSTWidget extends Widget {
   /**
-   * Construct a new APOD widget.
+   * Construct a new BURST widget.
    */
   constructor() {
     super();
 
-    this.addClass('my-apodWidget');
+    this.addClass('my-burstWidget');
 
     // Add an image element to the panel
     this.img = document.createElement('img');
@@ -69,7 +69,7 @@ class APODWidget extends Widget {
       return;
     }
 
-    const data = (await response.json()) as APODResponse;
+    const data = (await response.json()) as BURSTResponse;
 
     if (data.media_type === 'image') {
       // Populate the image
@@ -80,7 +80,7 @@ class APODWidget extends Widget {
         this.summary.innerText += ` (Copyright ${data.copyright})`;
       }
     } else {
-      this.summary.innerText = 'Random APOD fetched was not an image.';
+      this.summary.innerText = 'Random BURST fetched was not an image.';
     }
   }
 
@@ -98,29 +98,29 @@ class APODWidget extends Widget {
 }
 
 /**
- * Activate the APOD widget extension.
+ * Activate the BURST widget extension.
  */
 function activate(
   app: JupyterFrontEnd,
   palette: ICommandPalette,
   restorer: ILayoutRestorer
 ) {
-  console.log('JupyterLab extension jupyterlab_apod is activated!');
+  console.log('JupyterLab extension jupyterlab_burst is activated!');
 
   // Declare a widget variable
-  let widget: MainAreaWidget<APODWidget>;
+  let widget: MainAreaWidget<BURSTWidget>;
 
   // Add an application command
-  const command: string = 'apod:open';
+  const command: string = 'burst:open';
   app.commands.addCommand(command, {
     label: 'Random Astronomy Picture',
     execute: () => {
       if (!widget || widget.isDisposed) {
         // Create a new widget if one does not exist
         // or if the previous one was disposed after closing the panel
-        const content = new APODWidget();
+        const content = new BURSTWidget();
         widget = new MainAreaWidget({ content });
-        widget.id = 'apod-jupyterlab';
+        widget.id = 'burst-jupyterlab';
         widget.title.label = 'Astronomy Picture';
         widget.title.closable = true;
       }
@@ -143,20 +143,20 @@ function activate(
   palette.addItem({ command, category: 'Tutorial' });
 
   // Track and restore the widget state
-  let tracker = new WidgetTracker<MainAreaWidget<APODWidget>>({
-    namespace: 'apod'
+  let tracker = new WidgetTracker<MainAreaWidget<BURSTWidget>>({
+    namespace: 'burst'
   });
   restorer.restore(tracker, {
     command,
-    name: () => 'apod'
+    name: () => 'burst'
   });
 }
 
 /**
- * Initialization data for the jupyterlab_apod extension.
+ * Initialization data for the jupyterlab_burst extension.
  */
 const extension: JupyterFrontEndPlugin<void> = {
-  id: 'jupyterlab_apod',
+  id: 'jupyterlab_burst',
   autoStart: true,
   requires: [ICommandPalette, ILayoutRestorer],
   activate: activate
