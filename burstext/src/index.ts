@@ -113,7 +113,7 @@ function activate(
   // Add an application command
   const command: string = 'burst:open';
   app.commands.addCommand(command, {
-    label: 'Random Astronomy Picture',
+    label: 'Burst',
     execute: () => {
       if (!widget || widget.isDisposed) {
         // Create a new widget if one does not exist
@@ -121,7 +121,7 @@ function activate(
         const content = new BURSTWidget();
         widget = new MainAreaWidget({ content });
         widget.id = 'burst-jupyterlab';
-        widget.title.label = 'Astronomy Picture';
+        widget.title.label = 'Burst';
         widget.title.closable = true;
       }
       if (!tracker.has(widget)) {
