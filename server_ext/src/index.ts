@@ -17,12 +17,16 @@ namespace CommandIDs {
   export const get = 'server:get-file';
 }
 
-async function do_get() {
+async function do_get(el: HTMLDivElement) {
   // GET request
   try {
     console.log('GET: hello');
     const data = await requestAPI<any>('hello');
     console.log(data);
+//    el.innerHTML = data.data;
+    let div = document.createElement('div');
+    div.innerHTML = data.data;
+    el.appendChild(div);
   } catch (reason) {
     console.error(`Error on GET /jlab-ext-example/hello.\n${reason}`);
   }
@@ -50,7 +54,7 @@ const extension: JupyterFrontEndPlugin<void> = {
 //    } catch (reason) {
 //      console.error(`Error on GET /jlab-ext-example/hello.\n${reason}`);
 //    }
-    do_get();
+//    do_get();
 
     // POST request
     const dataToSend = { name: 'Gavin' };
@@ -84,8 +88,8 @@ const extension: JupyterFrontEndPlugin<void> = {
         let button = document.createElement('button');
         button.innerHTML = "BURST";
         button.onclick=function () {
-          alert('do something bursty');
-          do_get();
+//          alert('do something bursty');
+          do_get(div);
         };
         div.appendChild(button);
         content.node.appendChild(div);
