@@ -17,6 +17,16 @@ namespace CommandIDs {
   export const get = 'server:get-file';
 }
 
+async function do_get() {
+  // GET request
+  try {
+    console.log('GET: hello');
+    const data = await requestAPI<any>('hello');
+    console.log(data);
+  } catch (reason) {
+    console.error(`Error on GET /jlab-ext-example/hello.\n${reason}`);
+  }
+}
 /**
  * Initialization data for the server-extension-example extension.
  */
@@ -33,13 +43,14 @@ const extension: JupyterFrontEndPlugin<void> = {
     console.log('JupyterLab extension server-extension-example is activated!');
 
     // GET request
-    try {
-      console.log('GET hello');
-      const data = await requestAPI<any>('hello');
-      console.log(data);
-    } catch (reason) {
-      console.error(`Error on GET /jlab-ext-example/hello.\n${reason}`);
-    }
+//    try {
+//      console.log('GET hello');
+//      const data = await requestAPI<any>('hello');
+//      console.log(data);
+//    } catch (reason) {
+//      console.error(`Error on GET /jlab-ext-example/hello.\n${reason}`);
+//    }
+    do_get();
 
     // POST request
     const dataToSend = { name: 'Gavin' };
@@ -72,7 +83,10 @@ const extension: JupyterFrontEndPlugin<void> = {
         div.innerHTML = "Let's get ready to burst!<br/><br/>";
         let button = document.createElement('button');
         button.innerHTML = "BURST";
-        button.onclick=function () {alert('do something bursty')};
+        button.onclick=function () {
+          alert('do something bursty');
+          do_get();
+        };
         div.appendChild(button);
         content.node.appendChild(div);
         shell.add(widget, 'main');

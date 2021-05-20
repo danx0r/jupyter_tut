@@ -1,4 +1,4 @@
-import os, sys
+import os, sys, random
 import json
 
 from notebook.base.handlers import APIHandler
@@ -14,13 +14,13 @@ class RouteHandler(APIHandler):
     # Jupyter server
     @tornado.web.authenticated
     def get(self):
-        self.finish(json.dumps({"data": "This is /jlab-ext-example/hello endpoint!"}))
+        self.finish(json.dumps({"data": f"This is /jlab-ext-example/hello endpoint {random.randint(1, 100)}!"}))
 
     @tornado.web.authenticated
     def post(self):
         # input_data is a dictionary with a key "name"
         input_data = self.get_json_body()
-        data = {"greetings": "Hello {}, ensconce JupyterLab!".format(input_data["name"])}
+        data = {"greetings": "Hello {}, #{} - ensconce JupyterLab!".format(input_data["name"], random.randint(1, 100))}
         print ("~~~~~DEBUG:~~~~~")
         os.system('burst list')
         self.finish(json.dumps(data))
